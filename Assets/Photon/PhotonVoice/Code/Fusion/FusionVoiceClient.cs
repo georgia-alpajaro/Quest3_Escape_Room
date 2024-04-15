@@ -46,7 +46,7 @@ namespace Photon.Voice.Fusion
         /// </summary>
         [field: SerializeField]
         public bool UseFusionAuthValues = true;
-
+        
 #endregion
 
 #region Private Methods
@@ -59,6 +59,7 @@ namespace Photon.Voice.Fusion
                 return;
             }
             // Actual start code if the runner is already connecting
+            
             VoiceFollowClientStart();
         }
 
