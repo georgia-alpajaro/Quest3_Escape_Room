@@ -16,6 +16,9 @@ namespace Fusion.Addons.ConnectionManagerAddon
      **/
     public class ConnectionManager : MonoBehaviour, INetworkRunnerCallbacks
     {
+
+        public static ConnectionManager Instance { get; private set; }
+
         [System.Flags]
         public enum ConnectionCriterias
         {
@@ -63,8 +66,21 @@ namespace Fusion.Addons.ConnectionManagerAddon
         bool ShouldConnectWithRoomName => (connectionCriterias & ConnectionManager.ConnectionCriterias.RoomName) != 0;
         bool ShouldConnectWithSessionProperties => (connectionCriterias & ConnectionManager.ConnectionCriterias.SessionProperties) != 0;
 
+        public GameObject sessionCreateJoinCanvas;
+
         private void Awake()
         {
+
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+
             // Check if a runner exist on the same game object
             if (runner == null) runner = GetComponent<NetworkRunner>();
 
@@ -76,7 +92,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
         private async void Start()
         {
             // Launch the connection at start
-            if (connectOnStart) await Connect();
+            //if (connectOnStart) await Connect();
         }
 
         Dictionary<string, SessionProperty> AllConnectionSessionProperties
@@ -128,7 +144,29 @@ namespace Fusion.Addons.ConnectionManagerAddon
             return sceneInfo;
         }
 
-        public async Task Connect()
+        public async void CreateSession(string roomCode)
+        {
+
+            //ConnectSession
+            await Connect(roomCode, GameMode.Host);
+        }
+
+        public async void JoinSession(string roomCode)
+        {
+            //ConnectSession
+            await Connect(roomCode, GameMode.Client);
+        }
+
+        public async Task LoadScene(string sceneName)
+        {
+            if (runner.IsServer)
+            {
+                runner.LoadScene(sceneName);
+            }
+        }
+
+
+        public async Task Connect(string nameOfRoom, GameMode gM)
         {
             // Create the scene manager if it does not exist
             if (sceneManager == null) sceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>();
@@ -137,24 +175,19 @@ namespace Fusion.Addons.ConnectionManagerAddon
             // Start or join (depends on gamemode) a session with a specific name
             var args = new StartGameArgs()
             {
-                GameMode = gameMode,
+                GameMode = gM,
+                SessionName = nameOfRoom,
+                SessionProperties = AllConnectionSessionProperties,
                 Scene = CurrentSceneInfo(),
                 SceneManager = sceneManager
             };
-            // Connection criteria
-            if (ShouldConnectWithRoomName)
-            {
-                args.SessionName = roomName;
-            }
-            if (ShouldConnectWithSessionProperties)
-            {
-                args.SessionProperties = AllConnectionSessionProperties;
-            }
             // Room details
             if (playerCount > 0)
             {
                 args.PlayerCount = playerCount;
             }
+
+            sessionCreateJoinCanvas.SetActive(false);
 
             await runner.StartGame(args);
 
