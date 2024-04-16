@@ -67,6 +67,8 @@ namespace Fusion.Addons.ConnectionManagerAddon
         bool ShouldConnectWithSessionProperties => (connectionCriterias & ConnectionManager.ConnectionCriterias.SessionProperties) != 0;
 
         public GameObject sessionCreateJoinCanvas;
+        [SerializeField]
+        private GameObject uIHelpers;
 
         private void Awake()
         {
@@ -188,6 +190,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
             }
 
             sessionCreateJoinCanvas.SetActive(false);
+            uIHelpers.SetActive(false);
 
             await runner.StartGame(args);
 
