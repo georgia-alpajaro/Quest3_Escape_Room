@@ -7,15 +7,16 @@ using UnityEngine;
 public class JoinConnection : MonoBehaviour
 {
     [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private TMP_InputField nameInputField;
 
     public void CreateRoom()
     {
-        ConnectionManager.Instance.CreateSession(inputField.text);
+        ConnectionManager.Instance.CreateSession(inputField.text, nameInputField.text);
     }
 
     public void JoinRoom()
     {
-        ConnectionManager.Instance.JoinSession(inputField.text);
+        ConnectionManager.Instance.JoinSession(inputField.text, nameInputField.text);
 
     }
 }

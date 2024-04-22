@@ -69,6 +69,10 @@ namespace Fusion.Addons.ConnectionManagerAddon
         public GameObject sessionCreateJoinCanvas;
         [SerializeField]
         private GameObject uIHelpers;
+        [SerializeField]
+        private NetworkObject ghostPrefab;
+
+        public string _playerName = null;
 
         private void Awake()
         {
@@ -146,17 +150,17 @@ namespace Fusion.Addons.ConnectionManagerAddon
             return sceneInfo;
         }
 
-        public async void CreateSession(string roomCode)
+        public async void CreateSession(string roomCode, string playerName)
         {
 
             //ConnectSession
-            await Connect(roomCode, GameMode.Host);
+            await Connect(roomCode, GameMode.Host, playerName);
         }
 
-        public async void JoinSession(string roomCode)
+        public async void JoinSession(string roomCode, string playerName)
         {
             //ConnectSession
-            await Connect(roomCode, GameMode.Client);
+            await Connect(roomCode, GameMode.Client, playerName );
         }
 
         public async Task LoadScene(string sceneName)
@@ -168,8 +172,10 @@ namespace Fusion.Addons.ConnectionManagerAddon
         }
 
 
-        public async Task Connect(string nameOfRoom, GameMode gM)
+        public async Task Connect(string nameOfRoom, GameMode gM, string playerName)
         {
+
+            _playerName = playerName;
             // Create the scene manager if it does not exist
             if (sceneManager == null) sceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>();
             if (onWillConnect != null) onWillConnect.Invoke();
@@ -252,6 +258,9 @@ namespace Fusion.Addons.ConnectionManagerAddon
             if(runner.Topology == Topologies.ClientServer)
             {
                 OnPlayerJoinedHostMode(runner, player);
+                NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); 
+                //Instantiate(ghostPrefab, new Vector3(12f, 1.2f, -7f), Quaternion.identity );
+                //ghost.GetComponent<GhostController>().target = GameObject.FindGameObjectWithTag("Player").transform;
             }
             else
             {
