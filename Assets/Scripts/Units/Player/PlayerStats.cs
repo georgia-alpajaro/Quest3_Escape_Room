@@ -24,6 +24,8 @@ public class PlayerStats : NetworkBehaviour
         {
             PlayerName = ConnectionManager.Instance._playerName;
         }
+        PlayerName = ConnectionManager.Instance._playerName;
+        Debug.Log("Player Stats, Player Name: " +  PlayerName);
         playerNameLabel.text = PlayerName.ToString();
 
 
@@ -33,12 +35,12 @@ public class PlayerStats : NetworkBehaviour
     {
         foreach (var change in _changeDetector.DetectChanges(this))
         {
-            switch (change)
+/*            switch (change)
             {
                 case nameof(PlayerName):
                     playerNameLabel.text = PlayerName.ToString();
                     break;
-            }
+            }*/
         }
     }
 }

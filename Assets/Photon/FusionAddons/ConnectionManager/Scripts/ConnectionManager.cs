@@ -155,12 +155,15 @@ namespace Fusion.Addons.ConnectionManagerAddon
 
             //ConnectSession
             await Connect(roomCode, GameMode.Host, playerName);
+            Debug.Log("Create Session, Player Name is: " + playerName);
+
         }
 
         public async void JoinSession(string roomCode, string playerName)
         {
             //ConnectSession
             await Connect(roomCode, GameMode.Client, playerName );
+            Debug.Log("Join Session, Player Name is: " + playerName);
         }
 
         public async Task LoadScene(string sceneName)
@@ -175,7 +178,6 @@ namespace Fusion.Addons.ConnectionManagerAddon
         public async Task Connect(string nameOfRoom, GameMode gM, string playerName)
         {
 
-            _playerName = playerName;
             // Create the scene manager if it does not exist
             if (sceneManager == null) sceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>();
             if (onWillConnect != null) onWillConnect.Invoke();
@@ -197,6 +199,10 @@ namespace Fusion.Addons.ConnectionManagerAddon
 
             sessionCreateJoinCanvas.SetActive(false);
             uIHelpers.SetActive(false);
+            _playerName = playerName;
+            Debug.Log("Player Name is: " + _playerName);
+
+
 
             await runner.StartGame(args);
 
@@ -230,6 +236,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
             if (runner.IsServer && userPrefab != null)
             {
                 Debug.Log($"OnPlayerJoined. PlayerId: {player.PlayerId}");
+                Debug.Log($"OnPlayerJoined. PlayerName: {_playerName}");
                 // We make sure to give the input authority to the connecting player for their user's object
                 NetworkObject networkPlayerObject = runner.Spawn(userPrefab, position: transform.position, rotation: transform.rotation, inputAuthority: player, (runner, obj) => {
                 });
