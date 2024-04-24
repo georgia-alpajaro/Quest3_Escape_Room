@@ -10,6 +10,7 @@ public class PlayerStats : NetworkBehaviour
 {
 
     [Networked] public NetworkString<_32> PlayerName { get; set; }
+    [Networked] public bool NameChanged { get; set; }
 
 
 
@@ -35,12 +36,16 @@ public class PlayerStats : NetworkBehaviour
     {
         foreach (var change in _changeDetector.DetectChanges(this))
         {
-/*            switch (change)
+            switch (change)
             {
-                case nameof(PlayerName):
-                    playerNameLabel.text = PlayerName.ToString();
+                case nameof(NameChanged):
+                    PlayerName = ConnectionManager.Instance._playerName;
                     break;
-            }*/
+            }
         }
+/*        playerNameLabel.text = PlayerName.ToString();
+        Debug.Log("Player Name is: " + PlayerName);*/
+
     }
+
 }

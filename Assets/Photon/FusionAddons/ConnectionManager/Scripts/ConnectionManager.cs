@@ -153,17 +153,24 @@ namespace Fusion.Addons.ConnectionManagerAddon
         public async void CreateSession(string roomCode, string playerName)
         {
 
+            Debug.Log("Create Session, Player Name is: " + playerName);
+
             //ConnectSession
             await Connect(roomCode, GameMode.Host, playerName);
-            Debug.Log("Create Session, Player Name is: " + playerName);
+
+
 
         }
 
         public async void JoinSession(string roomCode, string playerName)
         {
+
+
+            Debug.Log("Join Session, Player Name is: " + playerName);
+
             //ConnectSession
             await Connect(roomCode, GameMode.Client, playerName );
-            Debug.Log("Join Session, Player Name is: " + playerName);
+
         }
 
         public async Task LoadScene(string sceneName)
@@ -173,6 +180,8 @@ namespace Fusion.Addons.ConnectionManagerAddon
                 runner.LoadScene(sceneName);
             }
         }
+
+
 
 
         public async Task Connect(string nameOfRoom, GameMode gM, string playerName)
@@ -199,8 +208,10 @@ namespace Fusion.Addons.ConnectionManagerAddon
 
             sessionCreateJoinCanvas.SetActive(false);
             uIHelpers.SetActive(false);
+
+            //ISSUES HERE, CLIENT CANT SET NAME
             _playerName = playerName;
-            Debug.Log("Player Name is: " + _playerName);
+
 
 
 
@@ -240,6 +251,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
                 // We make sure to give the input authority to the connecting player for their user's object
                 NetworkObject networkPlayerObject = runner.Spawn(userPrefab, position: transform.position, rotation: transform.rotation, inputAuthority: player, (runner, obj) => {
                 });
+
 
                 // Keep track of the player avatars so we can remove it when they disconnect
                 _spawnedUsers.Add(player, networkPlayerObject);
