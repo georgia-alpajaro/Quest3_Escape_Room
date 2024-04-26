@@ -9,8 +9,8 @@ using System;
 public class PlayerStats : NetworkBehaviour
 {
 
-    [Networked] public NetworkString<_32> PlayerName { get; set; }
-    [Networked] public bool NameChanged { get; set; }
+    [Networked] public string PlayerName { get; set; }
+    public GameObject nameInputField;
 
 
 
@@ -18,19 +18,31 @@ public class PlayerStats : NetworkBehaviour
 
     private ChangeDetector _changeDetector;
 
+
+
+
     public override void Spawned()
     {
+        nameInputField = GameObject.FindGameObjectWithTag("PlayerNameInput");
+        string nameInput = nameInputField.GetComponent<TMP_InputField>().text;
+        print("The Name input is: " + nameInput);
+
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
-        if (HasStateAuthority)
+        if (HasInputAuthority)
         {
-            PlayerName = ConnectionManager.Instance._playerName;
+            PlayerName = nameInput;
+            RPC_PlayerName(PlayerName);
+
+
         }
-        PlayerName = ConnectionManager.Instance._playerName;
-        Debug.Log("Player Stats, Player Name: " +  PlayerName);
-        playerNameLabel.text = PlayerName.ToString();
+        playerNameLabel.text = PlayerName;
+
 
 
     }
+
+
+
 
     public override void Render()
     {
@@ -38,14 +50,20 @@ public class PlayerStats : NetworkBehaviour
         {
             switch (change)
             {
-                case nameof(NameChanged):
-                    PlayerName = ConnectionManager.Instance._playerName;
+                case nameof(PlayerName):
+                    playerNameLabel.text = PlayerName;
                     break;
             }
         }
-/*        playerNameLabel.text = PlayerName.ToString();
-        Debug.Log("Player Name is: " + PlayerName);*/
 
     }
+
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_PlayerName(string playerName, RpcInfo info = default)
+    {
+        PlayerName = playerName;
+    }
+
 
 }

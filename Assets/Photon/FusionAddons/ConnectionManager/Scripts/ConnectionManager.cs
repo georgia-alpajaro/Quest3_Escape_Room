@@ -72,8 +72,6 @@ namespace Fusion.Addons.ConnectionManagerAddon
         [SerializeField]
         private NetworkObject ghostPrefab;
 
-        public string _playerName = null;
-
         private void Awake()
         {
 
@@ -206,13 +204,8 @@ namespace Fusion.Addons.ConnectionManagerAddon
                 args.PlayerCount = playerCount;
             }
 
-            sessionCreateJoinCanvas.SetActive(false);
+            sessionCreateJoinCanvas.transform.position = new Vector3(500, 500, 500);
             uIHelpers.SetActive(false);
-
-            //ISSUES HERE, CLIENT CANT SET NAME
-            _playerName = playerName;
-
-
 
 
             await runner.StartGame(args);
@@ -247,7 +240,6 @@ namespace Fusion.Addons.ConnectionManagerAddon
             if (runner.IsServer && userPrefab != null)
             {
                 Debug.Log($"OnPlayerJoined. PlayerId: {player.PlayerId}");
-                Debug.Log($"OnPlayerJoined. PlayerName: {_playerName}");
                 // We make sure to give the input authority to the connecting player for their user's object
                 NetworkObject networkPlayerObject = runner.Spawn(userPrefab, position: transform.position, rotation: transform.rotation, inputAuthority: player, (runner, obj) => {
                 });

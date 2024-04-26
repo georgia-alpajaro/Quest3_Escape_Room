@@ -4421,7 +4421,7 @@ GameObject:
   - component: {fileID: 1725520602}
   m_Layer: 5
   m_Name: PlayerNameInput
-  m_TagString: Untagged
+  m_TagString: PlayerNameInput
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5386,7 +5386,7 @@ GameObject:
   - component: {fileID: 1958260165}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: StartingUICanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
