@@ -373,20 +373,6 @@
             <para>
             Flags a property of <see cref="T:Fusion.NetworkBehaviour"/> for network state synchronization. 
             The property should have empty get and set defines, which will automatically be replaced with networking code via IL Weaving.
-            OnChanged can be assigned with the name of a method in the same NetworkBehaviour. 
-            The named method will get called whenever this property value has been changed by the State Authority.
-            <code>
-            | [Networked(OnDataReceived = nameof(MyCallbackMethod)]<br></br>
-            | public int MyProperty { get; set; }
-            |
-            | protected static void MyCallbackMethod(Changed&lt;ChangedCallbackParent&gt; changed) {
-            |   changed.LoadNew();
-            |   var newval = changed.Behaviour.MyProperty;
-            |   changed.LoadOld();
-            |   var oldval = changed.Behaviour.MyProperty;
-            |   Debug.Log($"Changed from {oldval} to {newval}");
-            | }
-            </code>
             </para>
             <para>
             Inside of INetworkStruct, do not use AutoProperties (get; set;), as these will introduce managed types into the struct, which are not allowed. Instead use '=> default'.
@@ -406,6 +392,26 @@
             <summary>
             Default constructor for NetworkedAttribute
             </summary>
+        </member>
+        <member name="T:Fusion.OnChangedRenderAttribute">
+            <summary>
+            OnChangedRender Attribute
+            </summary>
+            <remarks>
+            This attribute is used to specify a method that should be called when the property changes.
+            </remarks>
+        </member>
+        <member name="P:Fusion.OnChangedRenderAttribute.MethodName">
+            <summary>
+            Gets the name of the method to be called when the property changes.
+            </summary>
+        </member>
+        <member name="M:Fusion.OnChangedRenderAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Fusion.OnChangedRenderAttribute"/> class.
+            </summary>
+            <param name="methodName">The name of the method to be called when the property changes.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="methodName"/> is null or empty.</exception>
         </member>
         <member name="T:Fusion.NetworkedWeavedAttribute">
              <summary>
@@ -870,6 +876,11 @@
             Signal if the local peer will try or accept connections using NAT Punch
             </summary>
         </member>
+        <member name="P:Fusion.CloudServices.IsEncryptionEnabled">
+            <summary>
+            Flag to signal if the Photon Cloud connection is encrypted by default
+            </summary>
+        </member>
         <member name="P:Fusion.CloudServices.CustomSTUNServer">
             <summary>
             Custom STUN Server
@@ -1174,6 +1185,11 @@
         <member name="P:Fusion.CloudServicesMetadata.PlayerRef">
             <summary>
             Stores the local peer Unique Id
+            </summary>
+        </member>
+        <member name="P:Fusion.CloudServicesMetadata.EncryptionToken">
+            <summary>
+            Stores the local Encryption Token
             </summary>
         </member>
         <member name="F:Fusion.CloudServicesMetadata.ScheduledRequests">
@@ -1538,6 +1554,20 @@
             Called immediately before the <see cref="T:Fusion.HitboxManager"/> registers hitboxes in a snapshot.
             </summary>
         </member>
+        <member name="T:Fusion.IBeforeSimulation">
+            <summary>
+            Interface for <see cref="M:Fusion.IBeforeSimulation.BeforeSimulation(System.Int32)"/> callback. 
+            Called before both the re-simulation (when applicable) and forward simulation loops.
+            Implement this interface on <see cref="T:Fusion.SimulationBehaviour"/> and <see cref="T:Fusion.NetworkBehaviour"/> classes.
+            </summary>
+        </member>
+        <member name="M:Fusion.IBeforeSimulation.BeforeSimulation(System.Int32)">
+            <summary>
+            Called before both the re-simulation (when applicable) and forward simulation loops.
+            Only called on updates that have forward ticks to process.
+            </summary>
+            <param name="forwardTickCount">How many forward ticks are going to be processed.</param>
+        </member>
         <member name="T:Fusion.IBeforeTick">
             <summary>
             Interface for <see cref="M:Fusion.IBeforeTick.BeforeTick"/> callback. 
@@ -1781,6 +1811,11 @@
             Gets the state buffer associated with the network behaviour.
             </summary>
         </member>
+        <member name="F:Fusion.NetworkBehaviour._onRenderCallbacksDetector">
+            <summary>
+            On Render Default Change Detector instance
+            </summary>
+        </member>
         <member name="P:Fusion.NetworkBehaviour.WordInfo">
             <summary>
             Gives access to the offset (in 32 bit words) and count (in 32 bit words) of this behaviour backing data
@@ -1829,6 +1864,19 @@
             <summary>
             Gets a bitmask of <see cref="T:Fusion.AuthorityMasks"/> flags, representing the current local authority over this <see cref="T:Fusion.NetworkObject"/>.
             </summary>
+        </member>
+        <member name="M:Fusion.NetworkBehaviour.ReplicateTo(Fusion.PlayerRef,System.Boolean)">
+            <summary>
+            Controls if this network behaviours state is replicated to a player or not
+            </summary>
+            <param name="player">The player to change replication status for</param>
+            <param name="replicate">true = replicate, false = don't replicate</param>
+        </member>
+        <member name="M:Fusion.NetworkBehaviour.ReplicateToAll(System.Boolean)">
+            <summary>
+            Sets the default replicated state for this behaviour, this by default is true so calling ReplicateToAll(true) does nothing if ReplicateToAll(false) hasn't been called before  
+            </summary>
+            <param name="replicate">The default state of this behaviour</param>
         </member>
         <member name="M:Fusion.NetworkBehaviour.ResetState">
             <summary>
@@ -1888,6 +1936,11 @@
             Contains data about the property to be read.
             </summary>
         </member>
+        <member name="F:Fusion.NetworkBehaviour.ArrayReader`1.ReaderWriter">
+            <summary>
+            Contains the reader for the elements in the network array.
+            </summary>
+        </member>
         <member name="M:Fusion.NetworkBehaviour.ArrayReader`1.Read(Fusion.NetworkBehaviourBuffer)">
             <summary>
             Reads a network array from the provided network behaviour buffer.
@@ -1904,6 +1957,11 @@
         <member name="F:Fusion.NetworkBehaviour.LinkListReader`1.Data">
             <summary>
             Contains data about the property to be read.
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkBehaviour.LinkListReader`1.ReaderWriter">
+            <summary>
+            Contains the reader for the elements in the network array.
             </summary>
         </member>
         <member name="M:Fusion.NetworkBehaviour.LinkListReader`1.Read(Fusion.NetworkBehaviourBuffer)">
@@ -1923,6 +1981,16 @@
         <member name="F:Fusion.NetworkBehaviour.DictionaryReader`2.Data">
             <summary>
             Contains data about the property to be read.
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkBehaviour.DictionaryReader`2.KeyReaderWriter">
+            <summary>
+            Contains the reader for the keys in the network dictionary.
+            </summary>
+        </member>
+        <member name="F:Fusion.NetworkBehaviour.DictionaryReader`2.ValueReaderWriter">
+            <summary>
+            Contains the reader for the values in the network dictionary.
             </summary>
         </member>
         <member name="M:Fusion.NetworkBehaviour.DictionaryReader`2.Read(Fusion.NetworkBehaviourBuffer)">
@@ -2068,16 +2136,17 @@
             <param name="property">The name of the property to be read.</param>
             <returns>A PropertyReader for the property of type T in the network behaviour of the specified type.</returns>
         </member>
-        <member name="M:Fusion.NetworkBehaviour.GetArrayReader``1(System.Type,System.String)">
+        <member name="M:Fusion.NetworkBehaviour.GetArrayReader``1(System.Type,System.String,Fusion.IElementReaderWriter{``0})">
             <summary>
             Gets an ArrayReader for a network array of type T in a network behaviour of a specific type.
             </summary>
             <typeparam name="T">The type of elements in the network array.</typeparam>
             <param name="behaviourType">The type of the network behaviour.</param>
             <param name="property">The name of the property to be read.</param>
+            <param name="readerWriter"></param>
             <returns>An ArrayReader for the network array of type T in the network behaviour of the specified type.</returns>
         </member>
-        <member name="M:Fusion.NetworkBehaviour.GetDictionaryReader``2(System.Type,System.String)">
+        <member name="M:Fusion.NetworkBehaviour.GetDictionaryReader``2(System.Type,System.String,Fusion.IElementReaderWriter{``0},Fusion.IElementReaderWriter{``1})">
             <summary>
             Gets a DictionaryReader for a network dictionary with keys of type K and values of type V in a network behaviour of a specific type.
             </summary>
@@ -2085,15 +2154,18 @@
             <typeparam name="V">The type of values in the network dictionary.</typeparam>
             <param name="behaviourType">The type of the network behaviour.</param>
             <param name="property">The name of the property to be read.</param>
+            <param name="keyReaderWriter"></param>
+            <param name="valueReaderWriter"></param>
             <returns>A DictionaryReader for the network dictionary with keys of type K and values of type V in the network behaviour of the specified type.</returns>
         </member>
-        <member name="M:Fusion.NetworkBehaviour.GetLinkListReader``1(System.Type,System.String)">
+        <member name="M:Fusion.NetworkBehaviour.GetLinkListReader``1(System.Type,System.String,Fusion.IElementReaderWriter{``0})">
             <summary>
             Gets a LinkListReader for a network linked list of type T in a network behaviour of a specific type.
             </summary>
             <typeparam name="T">The type of elements in the network linked list.</typeparam>
             <param name="behaviourType">The type of the network behaviour.</param>
             <param name="property">The name of the property to be read.</param>
+            <param name="readerWriter"></param>
             <returns>A LinkListReader for the network linked list of type T in the network behaviour of the specified type.</returns>
         </member>
         <member name="M:Fusion.NetworkBehaviour.GetPropertyReader``1(System.String)">
@@ -2146,7 +2218,15 @@
             <summary>
             Serializes a NetworkBehaviour into a byte array.
             </summary>
-            <param name="runner">The NetworkRunner associated with the NetworkBehaviour.</param>
+            <param name="runner"></param>
+            <param name="obj">The NetworkBehaviour to be serialized.</param>
+            <param name="data">The byte pointer to write the serialized data to.</param>
+            <returns>The size of the serialized data in bytes.</returns>
+        </member>
+        <member name="M:Fusion.NetworkBehaviour.NetworkSerialize(Fusion.NetworkBehaviour,System.Byte*)">
+            <summary>
+            Serializes a NetworkBehaviour into a byte array.
+            </summary>
             <param name="obj">The NetworkBehaviour to be serialized.</param>
             <param name="data">The byte pointer to write the serialized data to.</param>
             <returns>The size of the serialized data in bytes.</returns>
@@ -2701,11 +2781,6 @@
             This structure holds metadata for a NetworkBehaviour object.
             </summary>
         </member>
-        <member name="F:Fusion.NetworkBehaviourUtils.MetaData.HasReplicateToOverride">
-            <summary>
-            Indicates whether the NetworkBehaviour object has an override for the ReplicateTo method.
-            </summary>
-        </member>
         <member name="F:Fusion.NetworkBehaviourUtils.InvokeRpc">
             <summary>
             A static field that determines whether to invoke RPC (Remote Procedure Call).
@@ -2799,6 +2874,13 @@
             <param name="index">The index of the static RPC.</param>
             <param name="del">When this method returns, contains the static RPC invoke delegate if it exists; otherwise, default.</param>
             <returns>True if the static RPC invoke delegate exists; otherwise, false.</returns>
+        </member>
+        <member name="M:Fusion.NetworkBehaviourUtils.NotifyRpcPayloadSizeExceeded(System.String,System.Int32)">
+            <summary>
+            Logs an error message indicating that the target of a Remote Procedure Call (RPC) payload is too large.
+            </summary>
+            <param name="size">Size of the payload.</param>
+            <param name="rpc">The name of the RPC that was attempted.</param>
         </member>
         <member name="M:Fusion.NetworkBehaviourUtils.NotifyRpcTargetUnreachable(Fusion.PlayerRef,System.String)">
             <summary>
@@ -3113,6 +3195,7 @@
             <summary>
             Post simulation frame rendering callback. Runs after all simulations have finished. Use in place of Unity's Update when Fusion is handling Physics.
             </summary>
+            
         </member>
         <member name="M:Fusion.SimulationBehaviour.OnDestroy">
             <summary>
@@ -3610,7 +3693,7 @@
             Call this when you wish to update an object. This does not update straight away, but marks it for update when Optimize() is called
             </summary>
         </member>
-        <member name="M:Fusion.LagCompensation.BVH.#ctor(Fusion.LagCompensation.Mapper,System.Int32,System.Collections.Generic.List{Fusion.HitboxRoot},System.Single)">
+        <member name="M:Fusion.LagCompensation.BVH.#ctor(Fusion.LagCompensation.Mapper,System.Int32,System.Collections.Generic.List{Fusion.HitboxRoot},System.Single,System.Int32)">
             <summary>
             initializes a BVH with a given nodeAdaptor, and object list.
             </summary>
@@ -3709,10 +3792,20 @@
             Used on <see cref="T:Fusion.HitboxTypes"/> of types: Sphere and Capsule.
             </summary>
         </member>
-        <member name="P:Fusion.LagCompensation.ColliderDrawInfo.CapsuleHeight">
+        <member name="P:Fusion.LagCompensation.ColliderDrawInfo.CapsuleExtents">
             <summary>
             The height for capsule colliders.
             <seealso cref="T:Fusion.HitboxTypes"/>
+            </summary>
+        </member>
+        <member name="P:Fusion.LagCompensation.ColliderDrawInfo.CapsuleTopCenter">
+            <summary>
+            Represents the top center position of the capsule collider.
+            </summary>
+        </member>
+        <member name="P:Fusion.LagCompensation.ColliderDrawInfo.CapsuleBottomCenter">
+            <summary>
+            Represents the bottom center position of the capsule collider.
             </summary>
         </member>
         <member name="P:Fusion.LagCompensation.ColliderDrawInfo.LocalToWorldMatrix">
@@ -4308,7 +4401,7 @@
             When <see cref="F:Fusion.Hitbox.Type"/> is set to <see cref="F:Fusion.HitboxTypes.Box"/>, this defines the local-space geometry for narrow-phase checks.
             </summary>
         </member>
-        <member name="F:Fusion.Hitbox.CapsuleHeight">
+        <member name="F:Fusion.Hitbox.CapsuleExtents">
             <summary>
             When <see cref="F:Fusion.Hitbox.Type"/> is set to <see cref="F:Fusion.HitboxTypes.Capsule"/>, this defines the local-space geometry for narrow-phase checks.
             </summary>
@@ -4354,6 +4447,12 @@
             <summary>
             Color used when drawing gizmos for this hitbox.
             </summary>
+        </member>
+        <member name="M:Fusion.Hitbox.SetLayer(System.Int32)">
+            <summary>
+            Set a layer mask for this <see cref="T:Fusion.Hitbox"/> gameobject. This method caches the layer mask.
+            </summary>
+            <param name="layer"></param>
         </member>
         <member name="M:Fusion.Hitbox.OnDrawGizmos">
             <summary>
@@ -4720,27 +4819,31 @@
             <param name="clearHits">Clear list of hits before filling with new ones (defaults to true).</param>
             <returns>The total number of hits found.</returns>
         </member>
+        <member name="M:Fusion.HitboxManager.GetPlayerTickAndAlpha(Fusion.PlayerRef,System.Nullable{System.Int32}@,System.Nullable{System.Int32}@,System.Nullable{System.Single}@)">
+            <summary>
+            Gets the tick and alpha interpolate values for a player.
+            </summary>
+            <param name="player">The player reference.</param>
+            <param name="tickFrom">The tick value from which to interpolate.</param>
+            <param name="tickTo">The tick value to which to interpolate.</param>
+            <param name="alpha">The interpolation alpha value.</param>
+        </member>
         <member name="M:Fusion.HitboxManager.RegisterHitboxSnapshot(System.Int32,System.Int32)">
             <summary>
             Internal use. Inserts (new ones) and updates all registered hitboxes into lag compensation history.
             </summary>
         </member>
-        <member name="M:Fusion.HitboxManager.BeforeAllTicks(System.Boolean,System.Int32)">
-            <inheritdoc cref="M:Fusion.IBeforeAllTicks.BeforeAllTicks(System.Boolean,System.Int32)"/>
-            Register new hitboxes and updates existing ones on the client.
-        </member>
-        <member name="M:Fusion.HitboxManager.AfterTick">
+        <member name="M:Fusion.HitboxManager.Fusion#IAfterTick#AfterTick">
             <inheritdoc cref="M:Fusion.IAfterTick.AfterTick"/>
             Register new hitboxes and updates existing ones on the Server.
-        </member>
-        <member name="M:Fusion.HitboxManager.AfterUpdate">
-            <inheritdoc cref="M:Fusion.IAfterUpdate.AfterUpdate"/>
-            Resets the registered flag.
         </member>
         <member name="M:Fusion.HitboxManager.WriteBenchmarkResults">
             <summary>
             Used internally to write the benchmark results.
             </summary>
+        </member>
+        <member name="M:Fusion.HitboxManager.Fusion#IBeforeSimulation#BeforeSimulation(System.Int32)">
+            <inheritdoc />
         </member>
         <member name="T:Fusion.HitOptions">
             <summary>
@@ -4833,6 +4936,16 @@
         <member name="F:Fusion.LagCompensatedHit.Point">
             <summary>
             Point of impact of the hit, at the lag compensated time.
+            </summary>
+        </member>
+        <member name="F:Fusion.LagCompensatedHit.HitboxColliderPosition">
+            <summary>
+            The hitbox collider position on the snapshot.
+            </summary>
+        </member>
+        <member name="F:Fusion.LagCompensatedHit.HitboxColliderRotation">
+            <summary>
+            The hitbox collider rotation on the snapshot.
             </summary>
         </member>
         <member name="F:Fusion.LagCompensatedHit.Distance">
@@ -5988,6 +6101,13 @@
             <param name="data">The byte array.</param>
             <param name="index">The index of the element.</param>
             <returns>A reference to the element at the specified index.</returns>
+        </member>
+        <member name="M:Fusion.IElementReaderWriter`1.GetElementHashCode(`0)">
+            <summary>
+            Calculate the hash code of an element.
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
         </member>
         <member name="T:Fusion.INetworkInput">
             <summary>
@@ -7858,6 +7978,14 @@
             <param name="data">The memory location to write to.</param>
             <param name="value">The boolean value to write.</param>
         </member>
+        <member name="M:Fusion.ReadWriteUtilsForWeaver.GetByteArrayHashCode(System.Byte*,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ptr"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
         <member name="M:Fusion.ReadWriteUtilsForWeaver.WriteStringUtf8NoHash(System.Void*,System.String)">
             <summary>
             Writes a string to the provided memory location in UTF8 format without a hash.
@@ -7880,6 +8008,14 @@
             </summary>
             <param name="value">The string to get the byte count of.</param>
             <returns>The byte count of the string in UTF8 format.</returns>
+        </member>
+        <member name="M:Fusion.ReadWriteUtilsForWeaver.GetStringHashCode(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <param name="maxLength"></param>
+            <returns></returns>
         </member>
         <member name="M:Fusion.ReadWriteUtilsForWeaver.WriteStringUtf32NoHash(System.Int32*,System.Int32,System.String)">
             <summary>
@@ -8934,6 +9070,11 @@
             The largest value in the series.
             </summary>
         </member>
+        <member name="M:Fusion.TimeSeries.Smoothed(System.Double)">
+            <summary>
+            Returns the exponentially-weighted average of the series (with smoothing factor <c>alpha</c>).
+            </summary>
+        </member>
         <member name="M:Fusion.TimeSeries.Add(System.Double)">
             <summary>
             Adds a new sample to the time series. If the series is already full, the oldest sample will be removed.
@@ -8982,10 +9123,10 @@
             <summary>
             A surrogate for serializing a dictionary.
             </summary>
-            <typeparam name="KeyType">The type of the key.</typeparam>
-            <typeparam name="KeyReaderWriter">The type of the key reader writer.</typeparam>
-            <typeparam name="ValueType">The type of the value.</typeparam>
-            <typeparam name="ValueReaderWriter">The type of the value reader writer.</typeparam>
+            <typeparam name="TKeyType">The type of the key.</typeparam>
+            <typeparam name="TKeyReaderWriter">The type of the key reader writer.</typeparam>
+            <typeparam name="TValueType">The type of the value.</typeparam>
+            <typeparam name="TValueReaderWriter">The type of the value reader writer.</typeparam>
             <seealso cref="T:Fusion.Internal.UnitySurrogateBase" />
         </member>
         <member name="P:Fusion.Internal.UnityDictionarySurrogate`4.DataProperty">
@@ -9536,6 +9677,13 @@
             Return the <paramref name="obj"/> <see cref="T:Fusion.NetworkId"/>.
             </summary>
             <param name="runner">The <see cref="T:Fusion.NetworkRunner"/> that <paramref name="obj"/> is assigned to</param>
+            <param name="obj">The <see cref="T:Fusion.NetworkObject"/> to get the ID from</param>
+            <returns>The <see cref="T:Fusion.NetworkId"/> of the object. Default if the object is not alive (null or destroyed)</returns>
+        </member>
+        <member name="M:Fusion.NetworkObject.NetworkWrap(Fusion.NetworkObject)">
+            <summary>
+            Return the <paramref name="obj"/> <see cref="T:Fusion.NetworkId"/>.
+            </summary>
             <param name="obj">The <see cref="T:Fusion.NetworkObject"/> to get the ID from</param>
             <returns>The <see cref="T:Fusion.NetworkId"/> of the object. Default if the object is not alive (null or destroyed)</returns>
         </member>
@@ -11226,6 +11374,11 @@
             <param name="sources">The legal <see cref="T:Fusion.RpcSources"/> types that can trigger this Rpc. Default is <see cref="F:Fusion.RpcSources.All"/></param>
             <param name="targets">The <see cref="T:Fusion.RpcTargets"/> types that will receive and invoke this method. Default is <see cref="F:Fusion.RpcTargets.All"/></param>
         </member>
+        <member name="F:Fusion.RpcAttribute.MaxPayloadSize">
+            <summary>
+            Maximum allowed size for the payload of the RPC message.
+            </summary>
+        </member>
         <member name="T:Fusion.RpcChannel">
             <summary>
             Flags for the RPC channel.
@@ -11471,9 +11624,19 @@
             Not invoked because target player is local and this <see cref="T:Fusion.NetworkObject"/> current authority does not match flags set in <see cref="P:Fusion.RpcAttribute.Targets"/>
             </summary>
         </member>
-        <member name="F:Fusion.RpcLocalInvokeResult.TagetPlayerIsNotLocal">
+        <member name="F:Fusion.RpcLocalInvokeResult.TargetPlayerIsNotLocal">
             <summary>
             Not invoked because target player is not local.
+            </summary>
+        </member>
+        <member name="F:Fusion.RpcLocalInvokeResult.PayloadSizeExceeded">
+            <summary>
+            RPC is too large. See <see cref="F:Fusion.RpcAttribute.MaxPayloadSize"/> for the maximum allowed size.
+            </summary>
+        </member>
+        <member name="F:Fusion.RpcLocalInvokeResult.TagetPlayerIsNotLocal">
+            <summary>
+            <see cref="F:Fusion.RpcLocalInvokeResult.TargetPlayerIsNotLocal"/>
             </summary>
         </member>
         <member name="T:Fusion.RpcSendCullResult">
@@ -11510,6 +11673,11 @@
         <member name="F:Fusion.RpcSendCullResult.TargetPlayerIsLocalButRpcIsNotInvokableLocally">
             <summary>
             Send culled because target player is local and <see cref="P:Fusion.RpcAttribute.InvokeLocal"/> is false.
+            </summary>
+        </member>
+        <member name="F:Fusion.RpcSendCullResult.PayloadSizeExceeded">
+            <summary>
+            RPC message size is too large to be sent. See <see cref="F:Fusion.RpcAttribute.MaxPayloadSize"/> for the maximum allowed size.
             </summary>
         </member>
         <member name="T:Fusion.RpcSendResult">
@@ -11815,6 +11983,12 @@
             Signal if the OnGameStarted was invoked already 
             </summary>
         </member>
+        <member name="F:Fusion.NetworkRunner._spawnedSimBehaviourQueue">
+            <summary>
+            A queue of simulation behaviours that were attached to the runner by AddGlobal and implement the ISpawned interface.
+            But the spawned call is delayed to when the RuntimeConfig is ready.
+            </summary>
+        </member>
         <member name="P:Fusion.NetworkRunner.ProvideInput">
             <summary>
             Indicates if this <see cref="T:Fusion.NetworkRunner"/> is collecting <see cref="T:Fusion.PlayerRef"/> <see cref="T:Fusion.INetworkInput"/>.
@@ -12039,6 +12213,11 @@
         <member name="M:Fusion.NetworkRunner.Shutdown(System.Boolean,Fusion.ShutdownReason,System.Boolean)">
             <summary>
             Initiates a <see cref="M:Fusion.Simulation.Dispose"/>.
+            </summary>
+        </member>
+        <member name="M:Fusion.NetworkRunner.OnRuntimeConfigReady">
+            <summary>
+            Called by the simulation when the RuntimeConfig is first acknowledged.
             </summary>
         </member>
         <member name="F:Fusion.NetworkRunner._onGameStartAction">
@@ -12484,6 +12663,21 @@
             Test if a player has Interest in a <see cref="T:Fusion.NetworkObject"/>.
             </summary>
             <returns>Returns null if interest cannot be determined (clients without State Authority are not aware of other client's Object Interest)</returns>
+        </member>
+        <member name="M:Fusion.NetworkRunner.SetBehaviourReplicateToAll(Fusion.NetworkBehaviour,System.Boolean)">
+            <summary>
+            Controls if a specific network behaviours state is replicated to all players or not
+            </summary>
+            <param name="behaviour">The behaviour to change replication status for</param>
+            <param name="replicate">true = replicate, false = don't replicate</param>
+        </member>
+        <member name="M:Fusion.NetworkRunner.SetBehaviourReplicateTo(Fusion.NetworkBehaviour,Fusion.PlayerRef,System.Boolean)">
+            <summary>
+            Controls if a specific network behaviours state is replicated to a player or not
+            </summary>
+            <param name="behaviour">The behaviour to change replication status for</param>
+            <param name="player">The player to change replication status for</param>
+            <param name="replicate">true = replicate, false = don't replicate</param>
         </member>
         <member name="M:Fusion.NetworkRunner.Attach(Fusion.NetworkObject[],System.Nullable{Fusion.PlayerRef},System.Boolean,System.Nullable{System.Boolean})">
             <summary>
@@ -13515,6 +13709,11 @@
             Reference to <see cref="F:Fusion.NetworkProjectConfig.HostMigration"/> settings for this <see cref="T:Fusion.NetworkProjectConfig"/>
             </summary>
         </member>
+        <member name="F:Fusion.NetworkProjectConfig.EncryptionConfig">
+            <summary>
+            Reference to <see cref="F:Fusion.NetworkProjectConfig.EncryptionConfig"/> settings for this <see cref="T:Fusion.NetworkProjectConfig"/>
+            </summary>
+        </member>
         <member name="F:Fusion.NetworkProjectConfig.NetworkConditions">
             <summary>
             Settings for simulating network conditions of latency and loss.
@@ -14224,6 +14423,13 @@
             Photon Cloud Session Name used either to Create or Join a Session.
             
             Default: null (random session matching)
+            </summary>
+        </member>
+        <member name="F:Fusion.StartGameArgs.SessionNameGenerator">
+            <summary>
+            Used to generate a new Session Name when creating a Session.
+            
+            Default: null (a random session name is generated based on a GUID)
             </summary>
         </member>
         <member name="F:Fusion.StartGameArgs.Address">
@@ -15640,6 +15846,11 @@
             Send delta compressed and redundant input, used for most games
             </summary>
         </member>
+        <member name="F:Fusion.SimulationConfig.InputTransferModes.RedundancyUncompressed">
+            <summary>
+            Send redundant input, use for games with small input structs (like fps games) and high player count 
+            </summary>
+        </member>
         <member name="F:Fusion.SimulationConfig.InputTransferModes.LatestState">
             <summary>
             Only send latest input state, useful for VR, etc. 
@@ -15928,89 +16139,49 @@
             Time Synchronization Configuration
             </summary>
         </member>
+        <member name="F:Fusion.TimeSyncConfiguration.SampleWindowSeconds">
+            <summary>
+            <para>How big of a window the client looks at to evaluate the latest network conditions.</para>
+            <para>Increasing this makes the client slower to adapt to changes.</para>
+            </summary>
+        </member>
         <member name="F:Fusion.TimeSyncConfiguration.MaxLateInputs">
             <summary>
-            <para>The maximum amount (%) of inputs allowed to arrive late because of jitter.</para>
-            <para>Determines the minimum target simulation offset.</para>
-            </summary>
-        </member>
-        <member name="F:Fusion.TimeSyncConfiguration.ExtraSimulationOffset">
-            <summary>
-            <para>Increases the target simulation offset by a fixed duration.</para>
-            <para>This is effectively how many extra chances inputs have to reach the server in time.</para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.MaxSimulationAccel">
-            <summary>
-            <para>The maximum amount (%) a client's simulation can speed up or slow down
-            to maintain its target simulation offset.</para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.SimAccelPropBand">
-            <summary>
-            <para>
-            Controls the range where the client's simulation speed scales linearly with the
-            simulation offset error (until it maxes out at <see cref="P:Fusion.TimeSyncConfiguration.MaxSimulationAccel"/>)."
-            </para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.SimulationAccelDeadzone">
-            <summary>
-            <para>
-            A client's simulation will only speed up or slow down if its simulation offset
-            is off-target by more than this amount (%).
-            </para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.SimulationResetThreshold">
-            <summary>
-            <para>
-            A client will reset its simulation state if its simulation offset
-            is off-target by more than this amount (%).
-            </para>
+            <para>The maximum percentage of inputs that should ever arrive late because of jitter.</para>
+            <para>Decreasing this increases the client's simulation offset.</para>
             </summary>
         </member>
         <member name="F:Fusion.TimeSyncConfiguration.MaxLateSnapshots">
             <summary>
-            <para>The maximum amount (%) of snapshots allowed to arrive late because of jitter.</para>
-            <para>Determines the minimum target interpolation delay.</para>
+            <para>The maximum percentage of snapshots that should ever arrive late because of jitter.</para>
+            <para>Decreasing this increases the client's interpolation delay.</para>
             </summary>
         </member>
-        <member name="F:Fusion.TimeSyncConfiguration.ExtraInterpolationOffset">
+        <member name="F:Fusion.TimeSyncConfiguration.RedundantInputs">
             <summary>
-            <para>Increases the target interpolation delay by a fixed duration.</para>
-            <para>This is effectively how many extra chances clients have to receive new snapshots in time.</para>
+            <para>The number of consecutive, additional chances each input should have to reach the server before it's needed.</para>
+            <para>Increasing this increases the client's simulation offset.</para>
             </summary>
         </member>
-        <member name="P:Fusion.TimeSyncConfiguration.MaxInterpolationAccel">
+        <member name="F:Fusion.TimeSyncConfiguration.RedundantSnapshots">
+            <summary>
+            <para>The number of consecutive snapshots a client should be able to miss without disrupting their interpolation.</para>
+            <para>Increasing this increases the client's interpolation delay.</para>
+            </summary>
+        </member>
+        <member name="P:Fusion.TimeSyncConfiguration.MaxSimSpeedAdjust">
             <summary>
             <para>
-            The maximum amount (%) that remote object interpolation on the client can speed up or slow down
+            The maximum percentage the client's simulation can speed up or slow down
+            to maintain its target simulation offset.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Fusion.TimeSyncConfiguration.MaxInterpSpeedAdjust">
+            <summary>
+            <para>
+            The maximum percentage the client's interpolation can speed up or slow down
             to maintain its target interpolation delay.
-            </para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.InterpAccelPropBand">
-            <summary>
-            <para>
-            Controls the range where the client's interpolation speed scales linearly with the
-            interpolation delay error (until it maxes out at <see cref="P:Fusion.TimeSyncConfiguration.MaxInterpolationAccel"/>)."
-            </para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.InterpolationAccelDeadzone">
-            <summary>
-            <para>
-            Remote object interpolation on the client will only speed up or slow down if its delay
-            is off-target by more than this amount (%).
-            </para>
-            </summary>
-        </member>
-        <member name="P:Fusion.TimeSyncConfiguration.InterpolationResetThreshold">
-            <summary>
-            <para>
-            A client will reset its interpolation state if its interpolation delay
-            is off-target by more than this percentage.
             </para>
             </summary>
         </member>
@@ -16188,6 +16359,12 @@
             <param name="tick">Tick to get input for.</param>
             <returns>Input for <paramref name="tick"/>.</returns>
         </member>
+        <member name="M:Fusion.SimulationInput.Buffer.GetLastUsedInputHeader">
+            <summary>
+            Retrieves the last used input header data.
+            </summary>
+            <returns>The last used input header data.</returns>
+        </member>
         <member name="M:Fusion.SimulationInput.Buffer.Add(Fusion.SimulationInput,System.Nullable{System.Double})">
             <summary>
             Adds an input to the buffer.
@@ -16259,6 +16436,9 @@
         </member>
         <member name="F:Fusion.SimulationMessage.SIZE">
             <summary>SimulationMessage size in bytes.</summary>
+        </member>
+        <member name="F:Fusion.SimulationMessage.MAX_PAYLOAD_SIZE">
+            <summary>Max user message size in bytes.</summary>
         </member>
         <member name="F:Fusion.SimulationMessage.FLAG_USER_MESSAGE">
             <summary>Flag for user messages.</summary>
@@ -16451,6 +16631,11 @@
             <param name="capacityInBytes">Size in bytes of the new <see cref="T:Fusion.SimulationMessage"/></param>
             <returns>Pointer to the new <see cref="T:Fusion.SimulationMessage"/></returns>
         </member>
+        <member name="M:Fusion.SimulationMessage.CanAllocateUserPayload(System.Int32)">
+            <summary>
+            Checks if a message with given size can be allocated.
+            </summary>
+        </member>
         <member name="M:Fusion.SimulationMessage.ToString">
             <summary>Simulation Message ToString</summary>
         </member>
@@ -16620,6 +16805,16 @@
         </member>
         <member name="F:Fusion.SimulationStats.InterpolationOffsetDeviation">
             <summary>Interpolation Offset Deviation</summary>
+        </member>
+        <member name="T:Fusion.FixedFeedback">
+            <summary>
+            Reduces errors at a constant rate using an on-off controller.
+            </summary>
+        </member>
+        <member name="T:Fusion.VariableFeedback">
+            <summary>
+            Reduces errors at a variable rate using a PID controller.
+            </summary>
         </member>
         <member name="T:Fusion.NetworkPhysicsInfo">
             <summary>
