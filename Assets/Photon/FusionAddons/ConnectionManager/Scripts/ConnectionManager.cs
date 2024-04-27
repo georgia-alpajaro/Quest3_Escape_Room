@@ -205,7 +205,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
             }
 
             sessionCreateJoinCanvas.transform.position = new Vector3(500, 500, 500);
-            uIHelpers.SetActive(false);
+            //uIHelpers.SetActive(false);
 
 
             await runner.StartGame(args);

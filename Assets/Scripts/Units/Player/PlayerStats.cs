@@ -5,12 +5,15 @@ using Fusion;
 using TMPro;
 using Fusion.Addons.ConnectionManagerAddon;
 using System;
+using UnityEngine.UI;
 
 public class PlayerStats : NetworkBehaviour
 {
 
     [Networked] public string PlayerName { get; set; }
     public GameObject nameInputField;
+
+    [Networked, OnChangedRender(nameof(UpdateHealth))] public float Health { get; set; }
 
 
 
@@ -19,28 +22,50 @@ public class PlayerStats : NetworkBehaviour
     private ChangeDetector _changeDetector;
 
 
+    public Image healthBar;
+
 
 
     public override void Spawned()
     {
         nameInputField = GameObject.FindGameObjectWithTag("PlayerNameInput");
         string nameInput = nameInputField.GetComponent<TMP_InputField>().text;
-        print("The Name input is: " + nameInput);
 
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
         if (HasInputAuthority)
         {
             PlayerName = nameInput;
             RPC_PlayerName(PlayerName);
-
-
         }
         playerNameLabel.text = PlayerName;
 
-
-
     }
 
+    private void Update()
+    {
+        if (OVRInput.GetDown(OVRInput.RawButton.A))
+        {
+            Damage(10);
+        }
+    }
+
+
+    public void UpdateHealth()
+    {
+        //Debug.Log("UPDATE HEALTH CALLED");
+        healthBar.transform.localScale = new Vector3(Health / 100, 1, 1);
+    }
+
+    public void Damage(float amount = 10)
+    {
+        if (HasInputAuthority)
+        {
+            Health -= amount;
+            RPC_PlayerHealth(Health);
+
+        }
+        //Debug.Log("Player Health: " + Health);
+    }
 
 
 
@@ -53,6 +78,7 @@ public class PlayerStats : NetworkBehaviour
                 case nameof(PlayerName):
                     playerNameLabel.text = PlayerName;
                     break;
+
             }
         }
 
@@ -65,5 +91,10 @@ public class PlayerStats : NetworkBehaviour
         PlayerName = playerName;
     }
 
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_PlayerHealth(float playerHealth, RpcInfo info = default)
+    {
+        Health = playerHealth;
+    }
 
 }
