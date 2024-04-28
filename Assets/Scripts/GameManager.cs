@@ -14,16 +14,16 @@ public class GameManager : MonoBehaviour
 
 
     private GameObject connectionManager;
-    private NetworkRunner runner;
+    public NetworkRunner runner;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        connectionManager = GameObject.FindGameObjectWithTag("connectionManager");
+        connectionManager = GameObject.FindGameObjectWithTag("ConnectionManager");
         runner = connectionManager.GetComponent<NetworkRunner>();
-        spawnRate = Random.Range(10f, 20f);
+        spawnRate = Random.Range(20f, 40f);
         spawnAmount = Random.Range(1, 3);
         deadline = Time.time + spawnRate;
 
@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < spawnAmount; i++)
             {
-                NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity);
+                //May need to put a check for inputAuthority here
+                NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); //EDIT POSITION ONCE CREATING FINAL SCENE
 
             }
             deadline = Time.time + spawnRate;
