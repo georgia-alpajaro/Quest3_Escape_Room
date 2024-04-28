@@ -13,7 +13,7 @@ public class PlayerStats : NetworkBehaviour
     [Networked] public string PlayerName { get; set; }
     public GameObject nameInputField;
 
-    [Networked, OnChangedRender(nameof(UpdateHealth))] public float Health { get; set; }
+    [Networked, OnChangedRender(nameof(UpdateHealth))] public float Health { get; set; } = 100;
 
 
 
@@ -36,8 +36,11 @@ public class PlayerStats : NetworkBehaviour
         {
             PlayerName = nameInput;
             RPC_PlayerName(PlayerName);
+            RPC_PlayerHealth(Health);
         }
         playerNameLabel.text = PlayerName;
+        UpdateHealth();
+        
 
     }
 
@@ -48,6 +51,8 @@ public class PlayerStats : NetworkBehaviour
             Damage(10);
         }
     }
+
+    
 
 
     public void UpdateHealth()
@@ -60,11 +65,17 @@ public class PlayerStats : NetworkBehaviour
     {
         if (HasInputAuthority)
         {
+            Debug.Log("HasINputAuthority for damaged method");
             Health -= amount;
             RPC_PlayerHealth(Health);
 
         }
         //Debug.Log("Player Health: " + Health);
+    }
+
+    public void Attack()
+    {
+
     }
 
 

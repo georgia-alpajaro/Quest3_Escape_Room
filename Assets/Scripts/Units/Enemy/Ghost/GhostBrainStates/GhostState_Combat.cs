@@ -45,7 +45,7 @@ public class GhostState_Combat : IState
 
     public void OnEnter()
     {
-        Debug.Log("Entered Combat State");
+       // Debug.Log("Entered Combat State");
         ghostReferences.animator.SetBool("combat", true);
         deadline = Time.time + attackForSeconds;
         target = ghostReferences.target;
@@ -55,7 +55,7 @@ public class GhostState_Combat : IState
 
     public void OnExit()
     {
-        Debug.Log("Left Combat State");
+        //Debug.Log("Left Combat State");
         ghostReferences.animator.SetBool("combat", false);
         target = null;
 

@@ -45,7 +45,7 @@ public class GhostReferences : MonoBehaviour
 
     public void onDamagePlayer(float damage)
     {
-        Debug.Log("Player Attacked with: " + damage + "Damage");
+        //Debug.Log("Player Attacked with: " + damage + "Damage");
         target.GetComponent<PlayerStats>().Damage(damage);
     }
 
@@ -55,7 +55,7 @@ public class GhostReferences : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         int idx = random.Next(players.Length);
         target = players[idx].transform;
-        Debug.Log("Target Adjusted");
+        //Debug.Log("Target Adjusted");
     }
 
     public void UpdateHealth()

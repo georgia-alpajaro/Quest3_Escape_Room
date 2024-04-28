@@ -20,7 +20,7 @@ public class GhostState_Delay : IState
 
     public void OnExit()
     {
-        Debug.Log("EnemyDelay onExit");
+        //Debug.Log("EnemyDelay onExit");
 
     }
 
