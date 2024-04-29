@@ -87,7 +87,7 @@ public class AxisDrag : MonoBehaviour
             for (int i = 0; i < _steps.Count; i++)
             {
                 float dist = Vector3.Distance(transform.position, (_steps[i] * _worldAxis) + _startPosition);
-                Debug.LogWarning($"Step {i} is {dist} away from current position at {transform.position}");
+                Debug.LogWarning($"Step {i} is {dist} away at {(_steps[i] * _worldAxis) + _startPosition}");
                 if (dist < minDistance)
                 {
                     //Debug.LogWarning($"Found new closest step {i}: {_stepNames[i]}");
@@ -96,9 +96,8 @@ public class AxisDrag : MonoBehaviour
                 }
             }
             //snap to position
+            Debug.LogWarning($"Snapping to step {currentStep}: {_stepNames[currentStep]}, set position from {transform.position} to {(_steps[currentStep] * _worldAxis) + _startPosition}");
             transform.SetPositionAndRotation((_steps[currentStep] * _worldAxis) + _startPosition, _initialRotation);
-
-            Debug.LogWarning($"Snapping to step {currentStep}: {_stepNames[currentStep]}, set position to {(_steps[currentStep] * _worldAxis) + _startPosition}");
         }
         else
         {
