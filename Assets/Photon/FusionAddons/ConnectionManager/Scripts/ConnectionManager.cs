@@ -66,7 +66,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
         bool ShouldConnectWithRoomName => (connectionCriterias & ConnectionManager.ConnectionCriterias.RoomName) != 0;
         bool ShouldConnectWithSessionProperties => (connectionCriterias & ConnectionManager.ConnectionCriterias.SessionProperties) != 0;
 
-        public GameObject sessionCreateJoinCanvas;
+        //public GameObject sessionCreateJoinCanvas;
         [SerializeField]
         private GameObject uIHelpers;
         [SerializeField]
@@ -175,7 +175,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
         {
             if (runner.IsServer)
             {
-                runner.LoadScene(sceneName);
+                await runner.LoadScene(sceneName);
             }
         }
 
@@ -204,7 +204,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
                 args.PlayerCount = playerCount;
             }
 
-            sessionCreateJoinCanvas.transform.position = new Vector3(500, 500, 500);
+            //sessionCreateJoinCanvas.transform.position = new Vector3(500, 500, 500);
             uIHelpers.SetActive(false);
 
 

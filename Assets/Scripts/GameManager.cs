@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < spawnAmount; i++)
             {
                 //May need to put a check for inputAuthority here
-                NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); //EDIT POSITION ONCE CREATING FINAL SCENE
+                //NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); //EDIT POSITION ONCE CREATING FINAL SCENE
 
             }
             deadline = Time.time + spawnRate;
