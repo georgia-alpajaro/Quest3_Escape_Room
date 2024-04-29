@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 42caec7e50196d048bcec623f7745c38
+<<<<<<<< HEAD:Assets/Scripts/Connection/JoinConnection.cs.meta
+guid: be8a33c536eb60e4381db981df56ca93
+========
+guid: b9cb94731090f724db4aa49b57d8fb86
+>>>>>>>> EscapeAssetsScene:Assets/Scripts/Connection/JoinRoomConnection.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

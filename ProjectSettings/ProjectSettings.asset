@@ -149,8 +149,13 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: f360705333b5fbc49b364abd80aa0267, type: 2}
+<<<<<<< HEAD
   - {fileID: 8791653070712942710, guid: 9bd7077edc5b871469aa672a34c4ef3a, type: 2}
   - {fileID: 11400000, guid: 152212797ac430c4fa538b23c37be3b6, type: 2}
+=======
+  - {fileID: 11400000, guid: 152212797ac430c4fa538b23c37be3b6, type: 2}
+  - {fileID: 8791653070712942710, guid: 9bd7077edc5b871469aa672a34c4ef3a, type: 2}
+>>>>>>> EscapeAssetsScene
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
