@@ -4,13 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-<<<<<<< HEAD
   - PlayerNameInput
   - StartingUICanvas
   - ConnectionManager
-=======
-  - Recorder
->>>>>>> EscapeAssetsScene
   layers:
   - Default
   - TransparentFX

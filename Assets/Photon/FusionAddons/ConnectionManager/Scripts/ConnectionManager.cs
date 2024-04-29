@@ -1,12 +1,9 @@
 using Fusion.Sockets;
-using Photon.Voice.Fusion;
-using Photon.Voice.Unity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 namespace Fusion.Addons.ConnectionManagerAddon
@@ -39,6 +36,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
         [Header("Room configuration")]
         public GameMode gameMode = GameMode.Shared;
         public string roomName = "SampleFusion";
+        public bool connectOnStart = true;
         [Tooltip("Set it to 0 to use the DefaultPlayers value, from the Global NetworkProjectConfig (simulation section)")]
         public int playerCount = 0;
 
@@ -76,6 +74,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
 
         private void Awake()
         {
+
             if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
@@ -88,6 +87,10 @@ namespace Fusion.Addons.ConnectionManagerAddon
 
             // Check if a runner exist on the same game object
             if (runner == null) runner = GetComponent<NetworkRunner>();
+
+            // Create the Fusion runner and let it know that we will be providing user input
+            if (runner == null) runner = gameObject.AddComponent<NetworkRunner>();
+            runner.ProvideInput = true;
         }
 
         private async void Start()
@@ -95,8 +98,6 @@ namespace Fusion.Addons.ConnectionManagerAddon
             // Launch the connection at start
             //if (connectOnStart) await Connect();
         }
-
-        
 
         Dictionary<string, SessionProperty> AllConnectionSessionProperties
         {
@@ -220,7 +221,6 @@ namespace Fusion.Addons.ConnectionManagerAddon
             {
                 roomName = runner.SessionInfo.Name;
             }
-
         }
 
         #region Player spawn
