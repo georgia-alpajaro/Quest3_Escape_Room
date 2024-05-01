@@ -20,6 +20,8 @@ public class PlayerStats : NetworkBehaviour
     [SerializeField] TextMeshPro playerNameLabel;
 
     private ChangeDetector _changeDetector;
+/*    public bool isGrabbing = false;
+    public string grabbableName;*/
 
 
     public Image healthBar;
@@ -50,9 +52,19 @@ public class PlayerStats : NetworkBehaviour
         {
             Damage(10);
         }
+        
     }
 
-    
+    public override void FixedUpdateNetwork()
+    {
+/*        if (isGrabbing && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) > 0.9f)
+        {
+            Attack();
+        }*/
+    }
+
+
+
 
 
     public void UpdateHealth()
@@ -75,10 +87,16 @@ public class PlayerStats : NetworkBehaviour
 
     public void Attack()
     {
-
+/*        if(isGrabbing && grabbableName == "GunInteractable" && OVRInput.GetDown(OVRInput.RawButton.A)) 
+        {
+            fireGun();
+        }*/
     }
 
-
+    private void fireGun()
+    {
+        throw new NotImplementedException();
+    }
 
     public override void Render()
     {
