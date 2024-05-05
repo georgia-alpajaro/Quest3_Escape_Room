@@ -221,3 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6866779fea5b61439b9d3b4e90af876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkForImpactPoint: {fileID: 3985187352861035104}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 512

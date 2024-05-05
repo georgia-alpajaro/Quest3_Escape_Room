@@ -28,7 +28,6 @@ public class GhostReferences : MonoBehaviour
 
 
     [Header("Stats")]
-
     public float pathUpdateDelay = 0.2f; //used so that we do not have to compute the navmesh path every frame
 
     private void Awake()
@@ -60,7 +59,7 @@ public class GhostReferences : MonoBehaviour
 
     public void UpdateHealth()
     {
-        healthBar.transform.localScale = new Vector3(Health / 100, 1, 1);
+       // healthBar.transform.localScale = new Vector3(Health / 100, 1, 1);
     }
 
 /*    public void Damage(float amount = 10)

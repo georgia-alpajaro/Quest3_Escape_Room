@@ -9,6 +9,7 @@ public class GrabbableGun : NetworkBehaviour
 {
 
     NetworkGrabber currentPlayerGrabber;
+    NetworkObject networkObject;
     bool isGrabbed = false;
 
     public Gunhandler ballPrefab;
@@ -22,6 +23,7 @@ public class GrabbableGun : NetworkBehaviour
     private void Awake()
     {
         var grabbable = GetComponentInParent<NetworkGrabbable>();
+        networkObject = GetComponentInParent<NetworkObject>();
         grabbable.onDidGrab.AddListener(OnDidGrab);
         grabbable.onDidUngrab.AddListener(OnDidUngrab);
     }
@@ -77,7 +79,7 @@ public class GrabbableGun : NetworkBehaviour
         {
             Runner.Spawn(ballPrefab, transform.position, transform.rotation, Object.InputAuthority, (runner, spawnedProjectile) =>
             {
-                spawnedProjectile.GetComponent<Gunhandler>().shoot(fireForce, currentPlayerGrabber.Object.InputAuthority, currentPlayerGrabber.Object.InputAuthority.ToString());
+                spawnedProjectile.GetComponent<Gunhandler>().shoot(fireForce, currentPlayerGrabber.Object.InputAuthority, currentPlayerGrabber.Object.InputAuthority.ToString(), networkObject);
             });
 
             //To avoid spamming the projectiles, could be removed later or just lower the delay
