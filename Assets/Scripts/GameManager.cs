@@ -3,8 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
-public class GameManager : MonoBehaviour
+
+public enum GameState
+{
+    Waiting,
+    Playing,
+    GameOver
+}
+
+
+public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     [SerializeField]
     private NetworkObject ghostPrefab;
@@ -17,20 +27,39 @@ public class GameManager : MonoBehaviour
     public NetworkRunner runner;
 
 
+    [Networked, OnChangedRender(nameof(GameStateChanged))] private GameState State { get; set; }
+
+
 
     // Start is called before the first frame update
     void Start()
+    {
+
+        
+    }
+
+    public override void Spawned()
     {
         connectionManager = GameObject.FindGameObjectWithTag("ConnectionManager");
         runner = connectionManager.GetComponent<NetworkRunner>();
         spawnRate = Random.Range(20f, 40f);
         spawnAmount = Random.Range(1, 3);
         deadline = Time.time + spawnRate;
-
+        State = GameState.Waiting;
+        UIManager.Singleton.SetWaitUI(State);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GameStateChanged()
+    {
+        UIManager.Singleton.SetWaitUI(State);
+    }
+
+    public void ChangeToGameOver()
+    {
+        State = GameState.GameOver;
+    }
+
+    public override void FixedUpdateNetwork()
     {
         if (Time.time >= deadline)
         {
@@ -43,5 +72,23 @@ public class GameManager : MonoBehaviour
             deadline = Time.time + spawnRate;
             spawnAmount = Random.Range(1, 3);
         }
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void PlayerJoined(PlayerRef player)
+    {
+        
+    }
+
+    public void PlayerLeft(PlayerRef player)
+    {
+        
     }
 }

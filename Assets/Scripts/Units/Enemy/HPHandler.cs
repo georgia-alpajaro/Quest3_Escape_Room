@@ -17,6 +17,7 @@ public class HPHandler : NetworkBehaviour
 
 
     bool isInitialized = false;
+    public bool isPlayer = false;
 
     const float startingHP = 100;
 
@@ -40,8 +41,17 @@ public class HPHandler : NetworkBehaviour
         {
             Debug.Log($"{Time.time}{transform.name} died");
              isDead = true;
+            GameOver();
         }
 
+    }
+
+    public void GameOver()
+    {
+        if (isPlayer)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().ChangeToGameOver();
+        }
     }
 
     public void OnHPChanged()

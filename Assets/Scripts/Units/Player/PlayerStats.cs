@@ -38,29 +38,22 @@ public class PlayerStats : NetworkBehaviour
         {
             PlayerName = nameInput;
             RPC_PlayerName(PlayerName);
-            RPC_PlayerHealth(Health);
+            //RPC_PlayerHealth(Health);
         }
         playerNameLabel.text = PlayerName;
-        UpdateHealth();
+        //UpdateHealth();
         
 
     }
 
     private void Update()
     {
-        if (OVRInput.GetDown(OVRInput.RawButton.A))
-        {
-            Damage(10);
-        }
         
     }
 
     public override void FixedUpdateNetwork()
     {
-/*        if (isGrabbing && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) > 0.9f)
-        {
-            Attack();
-        }*/
+
     }
 
 
@@ -93,10 +86,6 @@ public class PlayerStats : NetworkBehaviour
         }*/
     }
 
-    private void fireGun()
-    {
-        throw new NotImplementedException();
-    }
 
     public override void Render()
     {

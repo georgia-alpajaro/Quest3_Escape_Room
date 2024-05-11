@@ -45,7 +45,7 @@ public class GhostReferences : MonoBehaviour
     public void onDamagePlayer(float damage)
     {
         //Debug.Log("Player Attacked with: " + damage + "Damage");
-        target.GetComponent<PlayerStats>().Damage(damage);
+        target.GetComponent<HPHandler>().OnTakeDamage("Ghost", 40);
     }
 
     public void adjustTarget()

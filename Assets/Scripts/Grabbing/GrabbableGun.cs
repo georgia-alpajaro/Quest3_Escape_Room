@@ -44,7 +44,8 @@ public class GrabbableGun : NetworkBehaviour
                 DebugLog($"{gameObject.name} fired by {currentPlayerGrabber.Object.InputAuthority} {currentPlayerGrabber.hand.side} hand");
 
                 fire = true;
-                fireGun(transform.TransformDirection(new Vector3(0, 0, velocity)));
+                RPC_PlayerShoot();
+                
                 //Rigidbody clone = Instantiate(ballPrefab, transform.position, transform.rotation) as Rigidbody; //may need to use runner.spawn
                 
             }
@@ -77,6 +78,7 @@ public class GrabbableGun : NetworkBehaviour
     {
         if (fireDelay.ExpiredOrNotRunning(Runner))
         {
+            Debug.Log("SPAWNING PROJECTILE");
             Runner.Spawn(ballPrefab, transform.position, transform.rotation, Object.InputAuthority, (runner, spawnedProjectile) =>
             {
                 spawnedProjectile.GetComponent<Gunhandler>().shoot(fireForce, currentPlayerGrabber.Object.InputAuthority, currentPlayerGrabber.Object.InputAuthority.ToString(), networkObject);
@@ -86,4 +88,22 @@ public class GrabbableGun : NetworkBehaviour
             fireDelay = TickTimer.CreateFromSeconds(Runner, 0.5f);
         }
     }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_PlayerShoot( RpcInfo info = default)
+    {
+        Debug.Log("RPC_PlayerShoot CALLED");
+        RPC_FireGun();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All, HostMode = RpcHostMode.SourceIsServer)]
+    public void RPC_FireGun()
+    {
+        Debug.Log("RPC_FIREGUN CALLED");
+
+        fireGun(transform.TransformDirection(new Vector3(0, 0, velocity)));
+
+    }
+
+
 }

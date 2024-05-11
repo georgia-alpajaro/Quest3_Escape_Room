@@ -8,6 +8,7 @@ TagManager:
   - StartingUICanvas
   - ConnectionManager
   - Ignite
+  - GameManager
   layers:
   - Default
   - TransparentFX
