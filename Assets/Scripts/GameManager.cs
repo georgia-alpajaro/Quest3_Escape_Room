@@ -10,7 +10,8 @@ public enum GameState
 {
     Waiting,
     Playing,
-    GameOver
+    GameOver,
+    Escaped
 }
 
 
@@ -58,6 +59,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     {
         State = GameState.GameOver;
     }
+        
+    public void ChangeToEscaped()
+    {
+        State = GameState.Escaped;
+    }
+
+
 
     public override void FixedUpdateNetwork()
     {

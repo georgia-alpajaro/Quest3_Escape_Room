@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using System;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class HPHandler : NetworkBehaviour
 {
@@ -14,6 +15,7 @@ public class HPHandler : NetworkBehaviour
     [Networked, OnChangedRender(nameof(OnStateChanged))] public bool isDead { get; set; }
 
     public Image healthBar;
+    public NetworkRunner networkRunner;
 
 
     bool isInitialized = false;
@@ -27,6 +29,8 @@ public class HPHandler : NetworkBehaviour
     {
         HP = startingHP;
         isDead = false;
+        networkRunner = GameObject.FindGameObjectWithTag("ConnectionManager").GetComponent<NetworkRunner>();
+
     }
 
     public void OnTakeDamage(string damageCausedByPlayerName, float damageAmount)
@@ -51,6 +55,12 @@ public class HPHandler : NetworkBehaviour
         if (isPlayer)
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().ChangeToGameOver();
+        }
+        else
+        {
+            
+            networkRunner.Despawn(GetComponent<NetworkObject>());
+
         }
     }
 

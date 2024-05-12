@@ -53,10 +53,25 @@ public class UIManager : MonoBehaviour
         {
             gameOverText.text = "GAME OVER";
             instructionText.text = "You have failed, you must restart the game manually because we are dissapointed in you";
+        } else if (newState == GameState.Escaped)
+        {
+            gameOverText.text = "YOU ESCAPED!";
+            instructionText.text = "Great Job, We Hope you enjoyed our game!";
         }
 
-        gameOverText.enabled = newState == GameState.GameOver;
-        instructionText.enabled = newState == GameState.GameOver;
-        panel.enabled = newState == GameState.GameOver;
+
+        if (newState == GameState.GameOver || newState == GameState.Escaped)
+        {
+            gameOverText.enabled = true;
+            instructionText.enabled = true;
+            panel.enabled = true;
+        } else
+        {
+            gameOverText.enabled = false;
+            instructionText.enabled = false;
+            panel.enabled = false;
+        }
+
+
     }
 }
