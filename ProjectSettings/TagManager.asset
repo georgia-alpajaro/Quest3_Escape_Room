@@ -9,6 +9,7 @@ TagManager:
   - ConnectionManager
   - Ignite
   - GameManager
+  - Key
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - InvisibleForLocalPlayer
   - Ghost
   - NetworkedHitBox
-  - 
+  - DrawerStopper
   - 
   - 
   - 

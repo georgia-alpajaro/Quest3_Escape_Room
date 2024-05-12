@@ -269,7 +269,7 @@ namespace Fusion.Addons.ConnectionManagerAddon
             if(runner.Topology == Topologies.ClientServer)
             {
                 OnPlayerJoinedHostMode(runner, player);
-                NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); 
+                //NetworkObject ghost = runner.Spawn(ghostPrefab, position: new Vector3(12f, 1.2f, -7f), rotation: Quaternion.identity); 
                 //Instantiate(ghostPrefab, new Vector3(12f, 1.2f, -7f), Quaternion.identity );
                 //ghost.GetComponent<GhostController>().target = GameObject.FindGameObjectWithTag("Player").transform;
             }

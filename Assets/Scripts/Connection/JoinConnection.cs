@@ -13,11 +13,13 @@ public class JoinConnection : MonoBehaviour
 
     private void Awake()
     {
+        /*
         runner = ConnectionManager.Instance.GetComponent<NetworkRunner>();
         if (runner.IsRunning)
         {
             HideCanvas();
         }
+        */
     }
 
     public void CreateRoom()
