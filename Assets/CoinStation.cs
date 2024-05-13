@@ -11,7 +11,6 @@ public class CoinStation : MonoBehaviour
 
     public void CheckCoinSpots()
     {
-        Debug.Log("checking Coin");
         if (coinSpotsFilled == winningNumber)
         {
             //win game?
