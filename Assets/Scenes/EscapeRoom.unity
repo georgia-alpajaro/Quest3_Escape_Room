@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedKeyCode: coin
-  socketAttach: {fileID: 0}
+  socketAttach: {fileID: 1565615087}
   OnMatchedKey:
     m_PersistentCalls:
       m_Calls:
@@ -8344,7 +8344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedKeyCode: coin
-  socketAttach: {fileID: 0}
+  socketAttach: {fileID: 560800141}
   OnMatchedKey:
     m_PersistentCalls:
       m_Calls:
@@ -14639,7 +14639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedKeyCode: coin
-  socketAttach: {fileID: 0}
+  socketAttach: {fileID: 836096911}
   OnMatchedKey:
     m_PersistentCalls:
       m_Calls:
