@@ -64,12 +64,12 @@ public class UIManager : MonoBehaviour
         {
             gameOverText.enabled = true;
             instructionText.enabled = true;
-            panel.enabled = true;
+            //panel.enabled = true;
         } else
         {
             gameOverText.enabled = false;
             instructionText.enabled = false;
-            panel.enabled = false;
+            //panel.enabled = false;
         }
 
 

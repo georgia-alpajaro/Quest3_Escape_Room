@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,16 +12,23 @@ public class Socket : MonoBehaviour
     [SerializeField] private Transform socketAttach;
     public UnityEvent OnMatchedKey;
 
+    private void Start()
+    {
+        if (socketAttach == null)
+        {
+            socketAttach = transform;
+        }
+    }
+
     private void OnTriggerEnter(UnityEngine.Collider other)
     {
-        Debug.Log("AA Detected collision!");
+        Debug.Log("Detected collision");
         if (other.CompareTag("Key"))
         {
             Key key = other.gameObject.GetComponent<Key>();
-            Debug.Log($"AA correct tag! Key is {key}");
             if (key.KeyCode == acceptedKeyCode)
             {
-                Debug.Log($"AA Correct key code! {key.KeyCode}");
+                Debug.Log($"Correct key code! {key.KeyCode}");
                 key.OnMatchedSocket(socketAttach);
                 OnMatchedKey.Invoke();
             }

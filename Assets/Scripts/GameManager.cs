@@ -62,6 +62,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         
     public void ChangeToEscaped()
     {
+        Debug.Log("Escaped!!");
         State = GameState.Escaped;
     }
 

@@ -47,9 +47,10 @@ GameObject:
   - component: {fileID: 7986466217367190771}
   - component: {fileID: 4588254989510640838}
   - component: {fileID: 2179447473870651579}
+  - component: {fileID: -1243667748349186170}
   m_Layer: 0
   m_Name: Projectile
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,7 +131,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -225,3 +226,21 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &-1243667748349186170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040572463695001360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40cafb8421aa5cf4aa533b6a2fe64bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KeyCode: bullet
+  OnMatch:
+    m_PersistentCalls:
+      m_Calls: []
+  offset: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0}

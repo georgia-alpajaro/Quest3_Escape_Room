@@ -33,13 +33,13 @@ public class GrabbableGun : NetworkBehaviour
         Debug.Log(debug);
     }
 
-
+    //when time, check which hand is grabbing during OnDidGrab and set isLeftHand bool so that we only check correct trigger
 
     public override void FixedUpdateNetwork()
     {
         if (isGrabbed && Object.HasInputAuthority)
         {
-            if (OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f && fire == false)
+            if ((OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f || OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger) > 0.9f) && !fire)
             {
                 DebugLog($"{gameObject.name} fired by {currentPlayerGrabber.Object.InputAuthority} {currentPlayerGrabber.hand.side} hand");
 
@@ -49,7 +49,7 @@ public class GrabbableGun : NetworkBehaviour
                 //Rigidbody clone = Instantiate(ballPrefab, transform.position, transform.rotation) as Rigidbody; //may need to use runner.spawn
                 
             }
-            if (fire && OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) < 0.1f)
+            if (fire && (OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f || OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger) > 0.9f))
             {
                 fire = false;
             }
