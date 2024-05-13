@@ -342,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 2179447473870651579, guid: 228ffc5d6a327fa47a60113d54a65c69, type: 3}
+  fakeBallPrefab: {fileID: 6065357478532996799, guid: d4570b628c5bab3409d3f768650b67a4, type: 3}
   velocity: 25
 --- !u!1001 &3857131937673164153
 PrefabInstance:

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Fusion;
+using System;
 
 public class GrabbableGun : NetworkBehaviour
 {
@@ -13,12 +14,16 @@ public class GrabbableGun : NetworkBehaviour
     bool isGrabbed = false;
 
     public Gunhandler ballPrefab;
+    public Fake_GunHandler fakeBallPrefab;
     public float velocity = 50;
 
     bool fire = false;
 
 
     TickTimer fireDelay = TickTimer.None;
+
+    private float fakeTimer = 0f;
+    private float fakeDeadline = 0.5f;
 
     private void Awake()
     {
@@ -46,13 +51,50 @@ public class GrabbableGun : NetworkBehaviour
                 fire = true;
                 RPC_PlayerShoot();
                 
-                //Rigidbody clone = Instantiate(ballPrefab, transform.position, transform.rotation) as Rigidbody; //may need to use runner.spawn
                 
             }
             if (fire && (OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f || OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger) > 0.9f))
             {
                 fire = false;
             }
+        }
+
+    }
+
+    //for Local use only, used to spawn fake bullet on client side \
+    //currently disabled it because there is some offset between the real and fake bullets, so not worth my time to fix
+    private void Update()
+    {
+/*        fakeTimer += Time.deltaTime;
+
+        if (isGrabbed && Object.HasInputAuthority && fakeTimer > fakeDeadline)
+        {
+            if ((OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f || OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger) > 0.9f) && !fire)
+            {
+
+                fire = true;
+                fireFakeBullet(transform.TransformDirection(new Vector3(0, 0, velocity)));
+
+            }
+            if (fire && (OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger) > 0.9f || OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger) > 0.9f))
+            {
+                fire = false;
+            }
+        }*/
+
+        
+    }
+
+    private void fireFakeBullet(Vector3 fireForce)
+    {
+        if (!Object.HasStateAuthority)
+        {
+
+            Fake_GunHandler fakeBullet = Instantiate(fakeBallPrefab, transform.position, transform.rotation);
+            fakeBullet.shoot(fireForce);
+
+            fakeTimer = 0f;
+
         }
 
     }

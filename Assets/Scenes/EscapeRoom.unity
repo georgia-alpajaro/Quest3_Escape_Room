@@ -305,6 +305,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fd5a0c46345544aadb61f94ca20d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedKeyCode: coin
+  socketAttach: {fileID: 0}
+  OnMatchedKey:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1254883356}
+        m_TargetAssemblyTypeName: CoinStation, Assembly-CSharp
+        m_MethodName: CheckCoinSpots
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!23 &48574602
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3315,6 +3332,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5901994427300391342, guid: 0d5fafde81cf5664b8cd5516d11976c1, type: 3}
   m_PrefabInstance: {fileID: 581282055}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &587618237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.96000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.3699999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402986291877935792, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_Name
+      value: _Recorder_
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+--- !u!114 &587618238 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9209082607393792869, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+  m_PrefabInstance: {fileID: 587618237}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &592984756
 GameObject:
   m_ObjectHideFlags: 0
@@ -8258,6 +8343,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fd5a0c46345544aadb61f94ca20d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedKeyCode: coin
+  socketAttach: {fileID: 0}
+  OnMatchedKey:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1254883356}
+        m_TargetAssemblyTypeName: CoinStation, Assembly-CSharp
+        m_MethodName: CheckCoinSpots
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!23 &1116180887
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9244,8 +9346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf11f092cb50f34988c9ec2721a20e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winningNumber: 3
-  gameManager: {fileID: 0}
+  winningNumber: 2
+  gameManager: {fileID: 1466683993}
 --- !u!1 &1259868393
 GameObject:
   m_ObjectHideFlags: 0
@@ -11957,8 +12059,8 @@ MonoBehaviour:
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 6272431193161799245, guid: 9fd327d590beadc4abc769cf6c7d8804, type: 3}
-  primaryRecorder: {fileID: 0}
-  usePrimaryRecorder: 0
+  primaryRecorder: {fileID: 587618238}
+  usePrimaryRecorder: 1
   cppCompatibilityMode: 0
   Settings:
     AppIdRealtime: 
@@ -14536,6 +14638,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fd5a0c46345544aadb61f94ca20d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedKeyCode: coin
+  socketAttach: {fileID: 0}
+  OnMatchedKey:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1254883356}
+        m_TargetAssemblyTypeName: CoinStation, Assembly-CSharp
+        m_MethodName: CheckCoinSpots
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!23 &2058664949
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15549,3 +15668,4 @@ SceneRoots:
   - {fileID: 1905239275}
   - {fileID: 1598203225}
   - {fileID: 788408914}
+  - {fileID: 587618237}

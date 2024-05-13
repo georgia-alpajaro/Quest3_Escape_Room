@@ -1307,6 +1307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 2179447473870651579, guid: 228ffc5d6a327fa47a60113d54a65c69, type: 3}
+  fakeBallPrefab: {fileID: 0}
   velocity: 25
 --- !u!1 &429729843 stripped
 GameObject:
@@ -3166,6 +3167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostPrefab: {fileID: 6015153502915565367, guid: 22caec01bbcf02241a2f67c140cc41b1, type: 3}
+  radius: 15
   runner: {fileID: 0}
 --- !u!1001 &1135851195
 PrefabInstance:
@@ -4633,81 +4635,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6095333543647252577, guid: 71813bede6cf5634eb4bfd5f3ffd28e7, type: 3}
   m_PrefabInstance: {fileID: 1936566324}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1533316201
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1533316204}
-  - component: {fileID: 1533316203}
-  m_Layer: 0
-  m_Name: '|Recorder|'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1533316203
+--- !u!114 &1533316203 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 9209082607393792869, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+  m_PrefabInstance: {fileID: 5569800556951767718}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533316201}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceDetection: 0
-  voiceDetectionThreshold: 0.01
-  voiceDetectionDelayMs: 500
-  interestGroup: 0
-  useTargetPlayers: 0
-  targetPlayers: 
-  debugEchoMode: 1
-  reliableMode: 0
-  encrypt: 0
-  transmitEnabled: 1
-  samplingRate: 24000
-  frameDuration: 20000
-  bitrate: 30000
-  sourceType: 0
-  microphoneType: 0
-  audioClip: {fileID: 0}
-  loopAudioClip: 1
-  recordingEnabled: 1
-  audioSessionParameters:
-    Category: 4
-    Mode: 1
-    CategoryOptions: 0800000004000000
-  editorAudioSessionPreset: 1
-  androidMicrophoneSettings:
-    EnableAEC: 1
-    EnableAGC: 1
-    EnableNS: 1
-  stopRecordingWhenPaused: 0
-  useOnAudioFilterRead: 0
-  useMicrophoneTypeFallback: 1
-  recordWhenJoined: 1
---- !u!4 &1533316204
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533316201}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.96000004, y: 0, z: -0.3699999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1557171367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6399,6 +6337,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5217f5d581108f145a9872f201af29dc, type: 3}
+--- !u!1001 &5569800556951767718
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.96000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.3699999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800804941896406623, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402986291877935792, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
+      propertyPath: m_Name
+      value: '|Recorder|'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd7562cf28c4f41478c1b4e5a546b211, type: 3}
 --- !u!4 &6095333543434762324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6095333543647252576, guid: 71813bede6cf5634eb4bfd5f3ffd28e7, type: 3}
@@ -7014,7 +7009,7 @@ SceneRoots:
   - {fileID: 1409206711}
   - {fileID: 1958260164}
   - {fileID: 1135851195}
-  - {fileID: 1533316204}
+  - {fileID: 5569800556951767718}
   - {fileID: 1401577762}
   - {fileID: 1056510534}
   - {fileID: 1452542909}
